@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta property="og:description" content="你可以閱覽圖層、搜尋地址、繪製圖形與規劃路線" />
+        <meta property="og:image" content="https://charliewurichi.github.io/Google_Maps_Api/assets/image/og.png" />
+        <link rel="icon" href="https://charliewurichi.github.io/Google_Maps_Api/assets/image/icon.svg" type="image/gif" sizes="16x16" />
+        <title>多功能地圖平台</title>
+        <link rel="stylesheet" href="assets/css/style.css" />
+        <!-- Google Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <!-- Google Maps 用 -->
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+        <!-- jQuery -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.js" integrity="sha512-CX7sDOp7UTAq+i1FYIlf9Uo27x4os+kGeoT7rgwvY+4dmjqV0IuE/Bl5hVsjnQPQiTOhAX1O2r2j5bjsFBvv/A==" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <!-- 左側功能區 -->
+        <aside>
+            <!-- 標題 -->
+            <div class="title">多功能<br />地圖平台</div>
+            <div class="line"></div>
+            <!-- 四個功能清單 -->
+            <div class="label_list">
+                <ul id="layer" class="label">
+                    <div class="ul_title"><span class="material-symbols-outlined"> layers </span>圖層</div>
+                    <li>
+                        <input type="checkbox" name="BigHeart" id="BigHeart" />
+                        <label for="BigHeart" title="JSON">大心新泰式麵食 </label>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="placeNameHeart" id="placeNameHeart" />
+                        <label for="placeNameHeart" title="GeoJson">心字地名分布</label>
+                    </li>
+                </ul>
+                <ul id="geocoding" class="label">
+                    <div class="ul_title"><span class="material-symbols-outlined"> my_location </span>搜尋地址</div>
+                    <li class="errorText"><p id="inputError">輸入格式錯誤</p></li>
+                    <li>
+                        <input type="text" name="address" placeholder="請輸入地點" id="inputText" />
+                    </li>
+                    <li>
+                        <button value="Geocode" class="button-primary" id="submitButton">確定</button>
+                        <button value="Geocode" class="button-secondary" id="clearButton">清除</button>
+                    </li>
+                </ul>
+                <ul id="drawManagerLabel" class="label">
+                    <div id="drawManager" class="ul_title"><span class="material-symbols-outlined"> draw </span>繪圖</div>
+                    <li class="drawingControl_container">
+                        <span id="drawHand" class="drawingControl material-symbols-outlined active"> back_hand </span>
+                        <span id="drawMarker" class="drawingControl material-symbols-outlined"> location_on </span>
+                        <span id="drawPolyline" class="drawingControl material-symbols-outlined"> polyline </span>
+                        <span id="drawPolygon" class="drawingControl material-symbols-outlined"> pentagon </span>
+                    </li>
+                    <li><button id="clearDraw">清除</button></li>
+                </ul>
+                <ul id="directionsService" class="label">
+                    <div class="ul_title"><span class="material-symbols-outlined"> directions </span>路線規劃</div>
+                    <li class="errorText"><p id="startError">輸入格式錯誤</p></li>
+                    <li>
+                        <input class="inputDestination" type="text" id="startMarker" placeholder="起點｜輸入或點選地圖" />
+                    </li>
+                    <li class="destinationBtns">
+                        <button class="search_destination" id="startSearch">搜尋</button>
+                        <button class="pick_destination" id="startPicker">點選地圖</button>
+                    </li>
+                    <li><hr /></li>
+                    <li class="errorText"><p id="endError">輸入格式錯誤</p></li>
+                    <li>
+                        <input class="inputDestination" type="text" id="endMarker" placeholder="終點｜輸入或點選地圖" />
+                    </li>
+                    <li class="destinationBtns">
+                        <button class="search_destination" id="endSearch">搜尋</button>
+                        <button class="pick_destination" id="endPicker">點選地圖</button>
+                    </li>
+                    <li class="errorText"><p id="routeError">無法產生路線</p></li>
+                    <li><hr /></li>
+                    <li id="direactionBtns">
+                        <button id="drawRoute" class="button-primary">規劃</button>
+                        <button id="deleteRoute" class="button-secondary">清除</button>
+                    </li>
+                </ul>
+            </div>
+            <!-- 底部位置資訊 -->
+            <div class="position">
+                <h2 class="position_title">位置資訊</h2>
+                <p>經度：<span id="hereLng" style="color: rgb(200, 200, 200)">請點擊或移動地圖</span></p>
+                <p>緯度：<span id="hereLat" style="color: rgb(200, 200, 200)">請點擊或移動地圖</span></p>
+                <p>縮放：<span id="hereZoom" style="color: rgb(200, 200, 200)">請點擊或移動地圖</span></p>
+            </div>
+        </aside>
+        <!-- 右側地圖 -->
+        <article>
+            <div id="map"></div>
+        </article>
+        <script type="module" src="assets/JavaScript/script.js"></script>
+        <!-- Google Maps 用 -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvNQytY-G6P1s-VopJPHsLU8J4SXfAG0Q&libraries=drawing&callback=initMap&v=beta&region=TW&language=zh_tw" defer></script>
+    </body>
+</html>
